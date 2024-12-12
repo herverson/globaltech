@@ -46,12 +46,21 @@ class QuestionsPage extends StatelessWidget {
                 ),
                 buildPagination(context, pageIndex),
                 SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    _showSubmissionDialog(context);
-                  },
-                  child: Text('Simular'),
-                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _showSubmissionDialog(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: Size.fromHeight(50),
+                        backgroundColor: Colors.blueAccent),
+                    child: Text(
+                      'Simular  >',
+                      style: TextStyle(fontSize: 22, color: Colors.white),
+                    ),
+                  ),
+                )
               ],
             );
           },
@@ -138,7 +147,7 @@ class QuestionsPage extends StatelessWidget {
             },
             child: CircleAvatar(
               backgroundColor:
-                  pageIndex == index ? Colors.deepPurple : Colors.grey[300],
+                  pageIndex == index ? Colors.blueAccent : Colors.grey[300],
               child: Text(
                 '${index + 1}',
                 style: TextStyle(

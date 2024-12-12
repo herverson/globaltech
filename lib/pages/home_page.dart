@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
               child: TextField(
                 decoration: InputDecoration(
                   hintText: 'Buscar',
-                  suffixIcon: Icon(Icons.search),
+                  suffixIcon: Icon(Icons.search, color: Colors.blueAccent),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -62,13 +62,13 @@ class HomePage extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        color: Colors.grey[300],
+                        color: Colors.deepPurpleAccent,
                         child: Container(
-                          width: 300, // Largura do banner
+                          width: 300,
                           padding: const EdgeInsets.all(16),
                           child: Row(
                             children: [
-                              Icon(Icons.image, size: 40),
+                              Icon(Icons.image, size: 40, color: Colors.white),
                               SizedBox(width: 16),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,10 +79,14 @@ class HomePage extends StatelessWidget {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18,
+                                      color: Colors.white, // Texto branco
                                     ),
                                   ),
                                   SizedBox(height: 8),
-                                  Text(banner['description'] ?? ''),
+                                  Text(
+                                    banner['description'] ?? '',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ],
                               ),
                             ],
@@ -119,7 +123,7 @@ class HomePage extends StatelessWidget {
                           ),
                           Chip(
                             label: Text("Estado jornada"),
-                            backgroundColor: Colors.grey[300],
+                            backgroundColor: Colors.blueAccent[100],
                           ),
                         ],
                       ),
@@ -132,6 +136,7 @@ class HomePage extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
+                              color: Colors.greenAccent[700],
                             ),
                           ),
                           Text(
@@ -146,7 +151,7 @@ class HomePage extends StatelessWidget {
                         children: [
                           Chip(
                             label: Text("Mais detalhes >"),
-                            backgroundColor: Colors.grey[300],
+                            backgroundColor: Colors.greenAccent[100],
                           ),
                           Text(
                             "Data: 10/04/2024",
@@ -190,16 +195,23 @@ class HomePage extends StatelessWidget {
                       onTap: () {
                         Navigator.pushNamed(context, '/questions');
                       },
-                      child:
-                          buildGridButton("Empréstimos", Icons.monetization_on),
+                      child: buildGridButton("Empréstimos",
+                          Icons.monetization_on, Colors.tealAccent[400]),
                     ),
-                    buildGridButton("Consórcios", Icons.account_balance),
-                    buildGridButton("Financiamentos", Icons.attach_money),
-                    buildGridButton("Investimentos", Icons.bar_chart),
-                    buildGridButton("Plano de Saúde", Icons.local_hospital),
-                    buildGridButton("Seguros", Icons.security),
-                    buildGridButton("Outros", Icons.more_horiz),
-                    buildGridButton("Promoções", Icons.local_offer),
+                    buildGridButton("Consórcios", Icons.account_balance,
+                        Colors.purpleAccent),
+                    buildGridButton("Financiamentos", Icons.attach_money,
+                        Colors.orangeAccent),
+                    buildGridButton(
+                        "Investimentos", Icons.bar_chart, Colors.greenAccent),
+                    buildGridButton("Plano de Saúde", Icons.local_hospital,
+                        Colors.redAccent),
+                    buildGridButton(
+                        "Seguros", Icons.security, Colors.blueAccent),
+                    buildGridButton(
+                        "Outros", Icons.more_horiz, Colors.pinkAccent),
+                    buildGridButton(
+                        "Promoções", Icons.local_offer, Colors.amber),
                   ],
                 ),
               ),
@@ -209,41 +221,41 @@ class HomePage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
+        backgroundColor: Colors.blueGrey[50],
+        selectedItemColor: Colors.blueAccent,
+        unselectedItemColor: Colors.blueGrey,
         items: [
           BottomNavigationBarItem(
             icon: CircleAvatar(
-              backgroundColor: Colors.grey[300],
+              backgroundColor: Colors.blueAccent[100],
               child: Icon(Icons.home, color: Colors.black),
             ),
             label: 'Início',
           ),
           BottomNavigationBarItem(
             icon: CircleAvatar(
-              backgroundColor: Colors.grey[300],
+              backgroundColor: Colors.blueAccent[100],
               child: Icon(Icons.file_copy, color: Colors.black),
             ),
             label: 'Propostas Contratos',
           ),
           BottomNavigationBarItem(
             icon: CircleAvatar(
-              backgroundColor: Colors.grey[300],
+              backgroundColor: Colors.blueAccent[100],
               child: Icon(Icons.local_offer, color: Colors.black),
             ),
             label: 'Promoções',
           ),
           BottomNavigationBarItem(
             icon: CircleAvatar(
-              backgroundColor: Colors.grey[300],
+              backgroundColor: Colors.blueAccent[100],
               child: Icon(Icons.help, color: Colors.black),
             ),
             label: 'Ajuda',
           ),
           BottomNavigationBarItem(
             icon: CircleAvatar(
-              backgroundColor: Colors.grey[300],
+              backgroundColor: Colors.blueAccent[100],
               child: Icon(Icons.menu, color: Colors.black),
             ),
             label: 'Menu',
@@ -253,12 +265,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildGridButton(String title, IconData icon) {
+  Widget buildGridButton(String title, IconData icon, Color? color) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      color: Colors.grey[300],
+      color: color,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Stack(
@@ -270,6 +282,7 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -278,6 +291,7 @@ class HomePage extends StatelessWidget {
               child: Icon(
                 icon,
                 size: 30,
+                color: Colors.white,
               ),
             ),
           ],
