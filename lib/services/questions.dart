@@ -3,7 +3,7 @@ final List<Map<String, dynamic>> questions = [
   {"name": "Documento", "type": 1, "value": null},
   {"name": "E-mail", "type": 1, "value": null},
   {"name": "Telefone", "type": 1, "value": null},
-  {"name": "Data de Nascimento", "type": 2, "value": "31/10/  "},
+  {"name": "Data de Nascimento", "type": 2, "value": "31/10/2000"},
   {
     "name": "GÊNERO",
     "type": 5,

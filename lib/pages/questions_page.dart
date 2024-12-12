@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../cubit/questions_cubit.dart';
-import '../services/questions.dart';
+import '../cubit/questions_state.dart';
+import '../models/question.dart';
 import 'home_page.dart';
 
 class QuestionsPage extends StatelessWidget {
@@ -12,57 +13,66 @@ class QuestionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => QuestionsCubit(),
+      create: (_) => QuestionsCubit()..loadQuestions(),
       child: Scaffold(
         appBar: AppBar(
           title: Text('Empréstimos'),
         ),
-        body: BlocBuilder<QuestionsCubit, int>(
-          builder: (context, pageIndex) {
-            final start = pageIndex * 5;
-            final end =
-                (start + 5 > questions.length) ? questions.length : start + 5;
-            final pageQuestions = questions.sublist(start, end);
+        body: BlocBuilder<QuestionsCubit, QuestionsState>(
+          builder: (context, state) {
+            if (state is QuestionsInitial) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is QuestionsLoaded) {
+              final pageIndex = state.pageIndex;
+              final start = pageIndex * 5;
+              final end = (start + 5 > state.questions.length)
+                  ? state.questions.length
+                  : start + 5;
+              final pageQuestions = state.questions.sublist(start, end);
 
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 18, right: 18),
-                  child: Text(
-                      "Precisamos de algumas infromações para personalizar mais ofertas para você."),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    padding: EdgeInsets.all(18),
-                    itemCount: pageQuestions.length,
-                    itemBuilder: (context, index) {
-                      final question = pageQuestions[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8, top: 8),
-                        child: buildQuestionField(context, question),
-                      );
-                    },
-                  ),
-                ),
-                buildPagination(context, pageIndex),
-                SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _showSubmissionDialog(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: Size.fromHeight(50),
-                        backgroundColor: Colors.blueAccent),
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18, right: 18),
                     child: Text(
-                      'Simular  >',
-                      style: TextStyle(fontSize: 22, color: Colors.white),
+                      "Precisamos de algumas informações para personalizar mais ofertas para você.",
                     ),
                   ),
-                )
-              ],
-            );
+                  Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(18),
+                      itemCount: pageQuestions.length,
+                      itemBuilder: (context, index) {
+                        final question = pageQuestions[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8, top: 8),
+                          child: buildQuestionField(context, question, index),
+                        );
+                      },
+                    ),
+                  ),
+                  buildPagination(context, pageIndex, state.questions),
+                  SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _showSubmissionDialog(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size.fromHeight(50),
+                        backgroundColor: Colors.blueAccent,
+                      ),
+                      child: Text(
+                        'Simular  >',
+                        style: TextStyle(fontSize: 22, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+            return Center(child: CircularProgressIndicator());
           },
         ),
       ),
@@ -70,20 +80,20 @@ class QuestionsPage extends StatelessWidget {
   }
 
   Widget buildQuestionField(
-      BuildContext context, Map<String, dynamic> question) {
-    switch (question['type']) {
+      BuildContext context, Question question, int questionIndex) {
+    switch (question.type) {
       case 1:
         return TextFormField(
           decoration: InputDecoration(
-              labelText: question['name'], border: OutlineInputBorder()),
+              labelText: question.name, border: OutlineInputBorder()),
         );
       case 2:
         TextEditingController dateController =
-            TextEditingController(text: question['value'] ?? '');
+            TextEditingController(text: question.value ?? '');
 
         return TextFormField(
           decoration: InputDecoration(
-            labelText: question['name'],
+            labelText: question.name,
           ),
           controller: dateController,
           readOnly: true,
@@ -104,36 +114,37 @@ class QuestionsPage extends StatelessWidget {
       case 3:
         return TextFormField(
           decoration: InputDecoration(
-              labelText: question['name'], border: OutlineInputBorder()),
+              labelText: question.name, border: OutlineInputBorder()),
           keyboardType: TextInputType.number,
         );
       case 4:
         return TextFormField(
           decoration: InputDecoration(
-              labelText: question['name'],
+              labelText: question.name,
               prefixText: 'R\$ ',
               border: OutlineInputBorder()),
           keyboardType: TextInputType.number,
         );
       case 5:
         return DropdownButtonFormField<String>(
-          value: question['value'],
-          items: (question['optionsList'] as List<dynamic>)
+          value: question.value,
+          items: (question.optionsList!)
               .map((option) => DropdownMenuItem<String>(
-                    value: option['id'].toString(),
-                    child: Text(option['name']),
+                    value: option.id.toString(),
+                    child: Text(option.name),
                   ))
               .toList(),
           onChanged: (value) {},
           decoration: InputDecoration(
-              labelText: question['name'], border: OutlineInputBorder()),
+              labelText: question.name, border: OutlineInputBorder()),
         );
       default:
         return Container();
     }
   }
 
-  Widget buildPagination(BuildContext context, int pageIndex) {
+  Widget buildPagination(
+      BuildContext context, int pageIndex, List<Question> questions) {
     final totalPages = (questions.length / 5).ceil();
 
     return Row(
