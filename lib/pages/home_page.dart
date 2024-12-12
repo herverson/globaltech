@@ -7,21 +7,21 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80, // Definir altura personalizada
+        toolbarHeight: 80,
         title: Row(
           children: [
-            CircleAvatar(child: Text("EN")), // Avatar
+            CircleAvatar(child: Text("EN")),
             SizedBox(width: 10),
             Expanded(
               child: TextField(
                 decoration: InputDecoration(
                   hintText: 'Buscar',
-                  suffixIcon: Icon(Icons.search), // Ícone sempre visível
+                  suffixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: 6, horizontal: 5), // Ajusta a altura
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 6, horizontal: 5),
                 ),
               ),
             ),
@@ -122,7 +122,13 @@ class HomePage extends StatelessWidget {
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
                   children: [
-                    buildGridButton("Empréstimos", Icons.monetization_on),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/questions');
+                      },
+                      child:
+                          buildGridButton("Empréstimos", Icons.monetization_on),
+                    ),
                     buildGridButton("Consórcios", Icons.account_balance),
                     buildGridButton("Financiamentos", Icons.attach_money),
                     buildGridButton("Investimentos", Icons.bar_chart),
@@ -195,11 +201,9 @@ class HomePage extends StatelessWidget {
       ),
       color: Colors.grey[300],
       child: Padding(
-        padding: const EdgeInsets.all(
-            8.0), // Ajuste para adicionar espaçamento dentro do card
+        padding: const EdgeInsets.all(8.0),
         child: Stack(
           children: [
-            // Texto no canto inferior esquerdo
             Align(
               alignment: Alignment.bottomLeft,
               child: Text(
@@ -210,7 +214,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            // Ícone no canto superior direito
             Align(
               alignment: Alignment.topRight,
               child: Icon(
