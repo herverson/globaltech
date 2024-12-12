@@ -1,16 +1,25 @@
 # globaltech
 
-A new Flutter project.
+## Instalação
 
-## Getting Started
+1. Clone o repositório:
+  `git clone https://github.com/herverson/globaltech.git`
 
-This project is a starting point for a Flutter application.
+2. Navegue até o diretório do projeto:
+`cd globaltech`
 
-A few resources to get you started if this is your first Flutter project:
+3. Instale as dependências:
+`flutter pub get`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+4. Execute o aplicativo:
+`flutter run`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screens
+
+<div class="row">
+  <div class="column">
+   <img src="https://github.com/user-attachments/assets/380bd3f2-2153-470e-8bb6-3512d756a4d2" height="400"/>
+  <img src="https://github.com/user-attachments/assets/dec62566-9656-42c6-9406-9a25cc417675" height="400"/>
+  <img src="https://github.com/user-attachments/assets/77328aad-c2a0-4b98-9d1e-55df827b8539" height="400"/>
+  <img src="https://github.com/user-attachments/assets/e7458fa6-76f2-4413-aca8-7d03eea7e4e1" height="400"/>
+</div>
